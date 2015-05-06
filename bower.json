@@ -1,0 +1,22 @@
+{
+  "name": "snake",
+  "version": "0.0.1",
+  "authors": [
+    "Brett Davidson <bdavidson@rallydev.com>"
+  ],
+  "description": "A throwback snake game using Canvas 2D",
+  "main": "./index.html",
+  "license": "MIT",
+  "homepage": "github.com/brettdavidson3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.17",
+    "underscore": "~1.8.3"
+  }
+}
