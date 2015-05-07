@@ -1,4 +1,6 @@
-requirejs.config({
+'use strict';
+
+require.config({
     baseUrl: 'scripts',
     paths: {
         'underscore': '../bower_components/underscore/underscore'
@@ -10,4 +12,12 @@ requirejs.config({
     }
 });
 
-requirejs(['controller/game_controller']);
+function start() {
+    require(['controller/game'], function(GameController) {
+        var canvas = document.getElementById("canvas");
+        var controller = new GameController(canvas);
+        controller.startGame();
+    });
+}
+
+start();
