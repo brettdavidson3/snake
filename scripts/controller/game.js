@@ -1,12 +1,19 @@
 define([
 'underscore',
-'model/world'
-], function(_, WorldModel) {
+'model/world',
+'controller/snake',
+'view/snake'
+], function(_, WorldModel, SnakeController, SnakeView) {
     'use strict';
 
     function GameController(canvas) {
-        this.canvas = canvas;
+        this.setUpRequestAnimationFrame();
+        this.resizeCanvas(canvas);
+
+        this.context = canvas.getContext("2d")
         this.worldModel = this.initWorldModel(canvas);
+        this.snakeController = new SnakeController(this.worldModel.snake);
+        this.snakeView = new SnakeView(this.context, this.worldModel);
     }
 
     _.extend(GameController.prototype, {
@@ -17,8 +24,6 @@ define([
         },
 
         startGame: function() {
-            this.setUpRequestAnimationFrame();
-            this.resizeCanvas();
             this.scheduleNextFrame();
         },
 
@@ -33,37 +38,43 @@ define([
             }
         },
 
-        resizeCanvas: function() {
+        resizeCanvas: function(canvas) {
             // draw at twice the resolution to support different densities
-            this.canvas.width *= 2;
-            this.canvas.height *= 2;
+            canvas.width *= 2;
+            canvas.height *= 2;
         },
 
         scheduleNextFrame: function() {
             var scope = this;
-            window.requestAnimationFrame(function() {
-                scope.gameLoop();
+            window.requestAnimationFrame(function(timestamp) {
+                scope.gameLoop(timestamp);
             });
         },
 
-        gameLoop: function() {
-            var width = this.canvas.width,
-                height = this.canvas.height,
-                context = canvas.getContext("2d");
+        gameLoop: function(timestamp) {
+            var width = this.worldModel.arena.width,
+                height = this.worldModel.arena.height;
 
-            this.clearCanvas(context, width, height);
-            this.drawFrame(context, width, height);
+            this.updateControllers(timestamp);
+            this.clearCanvas();
+            this.drawFrame();
             this.scheduleNextFrame();
         },
 
-        clearCanvas: function(context, width, height) {
-            context.fillStyle = "#CCCC00";
-            context.fillRect(0, 0, width, height);
+        clearCanvas: function() {
+            var width = this.worldModel.arena.width,
+                height = this.worldModel.arena.height;
 
+            this.context.fillStyle = "#CCCC00";
+            this.context.fillRect(0, 0, width, height);
         },
 
-        drawFrame: function(context, width, height) {
+        updateControllers: function(timestamp) {
+            this.snakeController.update(timestamp);
+        },
 
+        drawFrame: function() {
+            this.snakeView.render();
         }
     });
 
