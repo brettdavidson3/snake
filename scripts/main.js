@@ -13,9 +13,9 @@ require.config({
 });
 
 function start() {
-    require(['controller/game'], function(GameController) {
+    require(['controller/main'], function(MainController) {
         var canvas = document.getElementById("canvas");
-        var controller = new GameController(canvas);
+        var controller = new MainController(canvas);
         controller.startGame();
     });
 }

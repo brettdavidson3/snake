@@ -10,13 +10,13 @@ define([
     var INITIAL_DIRECTION = Direction.RIGHT;
     var INITIAL_SPEED_INTERVAL = 1000;
 
-    var SnakeModel = function() {
+    var Snake = function() {
         this.body = this.initBody();
         this.direction = INITIAL_DIRECTION;
         this.speedInterval = INITIAL_SPEED_INTERVAL;
     };
 
-    _.extend(SnakeModel.prototype, {
+    _.extend(Snake.prototype, {
         initBody: function() {
             return _.times(INITIAL_LENGTH, function(i) {
                 // The head will be the first item in the array.  For the starting position,
@@ -28,5 +28,5 @@ define([
         }
     });
 
-    return SnakeModel;
+    return Snake;
 });

@@ -25,7 +25,8 @@ define([
             this.inputListener.register(38, function() {
                 if (me.snakeModel.direction !== Direction.DOWN) {
                     me.snakeModel.direction = Direction.UP;
-                }            });
+                }
+            });
             this.inputListener.register(39, function() {
                 if (me.snakeModel.direction !== Direction.LEFT) {
                     me.snakeModel.direction = Direction.RIGHT;

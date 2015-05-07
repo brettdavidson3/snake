@@ -3,10 +3,10 @@ define([
 ], function(_) {
     'use strict';
 
-    var SnakeView = function(context, worldModel) {
+    var SnakeView = function(context, gameModel) {
         this.context = context;
-        this.snakeModel = worldModel.snake;
-        this.blockSize = worldModel.blockSize;
+        this.snakeModel = gameModel.snake;
+        this.blockSize = gameModel.blockSize;
     };
 
     _.extend(SnakeView.prototype, {
