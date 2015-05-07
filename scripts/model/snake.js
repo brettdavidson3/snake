@@ -1,19 +1,13 @@
 define([
     'underscore',
-    'model/block'
-], function(_, Block) {
+    'model/block',
+    'model/direction'
+], function(_, Block, Direction) {
     'use strict';
-
-    var DIRECTION = {
-        UP: new Block(0, -1),
-        DOWN: new Block(0, 1),
-        LEFT: new Block(-1, 0),
-        RIGHT: new Block(1, 0)
-    };
 
     var INITIAL_LENGTH = 5;
     var INITIAL_POSITION = new Block(1, 1);
-    var INITIAL_DIRECTION = DIRECTION.RIGHT;
+    var INITIAL_DIRECTION = Direction.RIGHT;
     var INITIAL_SPEED_INTERVAL = 1000;
 
     var SnakeModel = function() {

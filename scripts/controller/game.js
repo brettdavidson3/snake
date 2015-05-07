@@ -10,17 +10,29 @@ define([
         this.setUpRequestAnimationFrame();
         this.resizeCanvas(canvas);
 
-        this.context = canvas.getContext("2d")
-        this.worldModel = this.initWorldModel(canvas);
-        this.snakeController = new SnakeController(this.worldModel.snake);
-        this.snakeView = new SnakeView(this.context, this.worldModel);
+        this.context = canvas.getContext("2d");
+        this.initModels(canvas);
+        this.initControllers();
+        this.initViews();
     }
 
     _.extend(GameController.prototype, {
+        initModels: function(canvas) {
+            this.worldModel = this.initWorldModel(canvas);
+        },
+
         initWorldModel: function(canvas) {
             var width = canvas.width,
                 height = canvas.height;
             return new WorldModel(width, height);
+        },
+
+        initControllers: function() {
+            this.snakeController = new SnakeController(this.worldModel.snake);
+        },
+
+        initViews: function() {
+            this.snakeView = new SnakeView(this.context, this.worldModel);
         },
 
         startGame: function() {
