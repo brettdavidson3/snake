@@ -15,28 +15,21 @@ define([
     _.extend(SnakeController.prototype, {
         initInputListener: function() {
             this.inputListener = new InputListener();
-            var me = this;
+            this.inputListener.register(37, _.bind(this.attemptDirection, this, Direction.LEFT));
+            this.inputListener.register(38, _.bind(this.attemptDirection, this, Direction.UP));
+            this.inputListener.register(39, _.bind(this.attemptDirection, this, Direction.RIGHT));
+            this.inputListener.register(40, _.bind(this.attemptDirection, this, Direction.DOWN));
+        },
 
-            this.inputListener.register(37, function() {
-                if (me.snakeModel.direction !== Direction.RIGHT) {
-                    me.snakeModel.direction = Direction.LEFT;
-                }
-            });
-            this.inputListener.register(38, function() {
-                if (me.snakeModel.direction !== Direction.DOWN) {
-                    me.snakeModel.direction = Direction.UP;
-                }
-            });
-            this.inputListener.register(39, function() {
-                if (me.snakeModel.direction !== Direction.LEFT) {
-                    me.snakeModel.direction = Direction.RIGHT;
-                }
-            });
-            this.inputListener.register(40, function() {
-                if (me.snakeModel.direction !== Direction.UP) {
-                    me.snakeModel.direction = Direction.DOWN;
-                }
-            });
+        attemptDirection: function(direction) {
+            if (!this.areOppositeDirections(this.snakeModel.direction, direction)) {
+                this.snakeModel.nextDirection = direction;
+            }
+        },
+
+        areOppositeDirections: function(directionA, directionB) {
+            return (directionA.x === directionB.x && directionA.y === -directionB.y) ||
+                   (directionA.y === directionB.y && directionA.x === -directionB.x);
         },
 
         update: function(timestamp) {
@@ -48,11 +41,13 @@ define([
         },
 
         addNewHead: function() {
-            var currentHead = this.snakeModel.body[0];
-            var currentDirection = this.snakeModel.direction;
-            var newX = currentHead.x + currentDirection.x;
-            var newY = currentHead.y + currentDirection.y;
+            var currentHead = this.snakeModel.getHead();
+            var nextDirection = this.snakeModel.nextDirection;
+            var newX = currentHead.x + nextDirection.x;
+            var newY = currentHead.y + nextDirection.y;
             this.snakeModel.body.unshift(new Block(newX, newY));
+
+            this.snakeModel.direction = this.snakeModel.nextDirection;
         },
 
         clearInputListener: function() {
