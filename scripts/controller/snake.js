@@ -53,6 +53,10 @@ define([
             var newX = currentHead.x + currentDirection.x;
             var newY = currentHead.y + currentDirection.y;
             this.snakeModel.body.unshift(new Block(newX, newY));
+        },
+
+        clearInputListener: function() {
+            this.inputListener.clear();
         }
     });
 

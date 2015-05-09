@@ -8,7 +8,7 @@ define([
     var INITIAL_LENGTH = 5;
     var INITIAL_POSITION = new Block(1, 1);
     var INITIAL_DIRECTION = Direction.RIGHT;
-    var INITIAL_SPEED_INTERVAL = 1000;
+    var INITIAL_SPEED_INTERVAL = 200;
 
     var Snake = function() {
         this.body = this.initBody();
@@ -25,6 +25,14 @@ define([
                 var xOffset = INITIAL_LENGTH - i;
                 return new Block(INITIAL_POSITION.x + xOffset, INITIAL_POSITION.y);
             });
+        },
+
+        getHead: function() {
+            return this.body[0];
+        },
+
+        getTail: function() {
+            return _.rest(this.body);
         }
     });
 

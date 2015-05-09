@@ -5,10 +5,9 @@ define([
 
     var InputListener = function() {
         this.registeredActions = {};
-        var me = this;
-        document.addEventListener('keydown', function(event) {
-            me.onKeyDown(event.which);
-        }, false);
+        this.anyActions = [];
+        this.keyDownListener = _.bind(this.onKeyDown, this);
+        document.addEventListener('keydown', this.keyDownListener);
     };
 
     _.extend(InputListener.prototype, {
@@ -16,12 +15,24 @@ define([
             this.registeredActions[key] = action;
         },
 
-        onKeyDown: function(key) {
+        registerAny: function(action) {
+            this.anyActions.push(action);
+        },
+
+        onKeyDown: function(event) {
+            var key = event.which;
             var action = this.registeredActions[key];
             if (action) {
                 action();
             }
+            _.each(this.anyActions, function(action) {
+                action();
+            });
         },
+
+        clear: function() {
+            document.removeEventListener('keydown', this.keyDownListener);
+        }
 
     });
 

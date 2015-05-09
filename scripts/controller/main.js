@@ -1,7 +1,9 @@
 define([
 'underscore',
-'model/screen/game'
-], function(_, GameScreen) {
+'model/screen/title',
+'model/screen/game',
+'model/screen/lose'
+], function(_, TitleScreen, GameScreen, LoseScreen) {
     'use strict';
 
     function MainController(canvas) {
@@ -10,13 +12,25 @@ define([
 
         this.canvas = canvas;
         this.context = canvas.getContext("2d");
+        this.highScore = 0;
 
-        this.showGameScreen();
+        this.showTitleScreen();
     }
 
     _.extend(MainController.prototype, {
+        showTitleScreen: function() {
+            this.screen = new TitleScreen(this.canvas, this.context, this.highScore, _.bind(this.showGameScreen, this));
+        },
+
         showGameScreen: function() {
-            this.screen = new GameScreen(this.canvas, this.context);
+            this.screen = new GameScreen(this.canvas, this.context, _.bind(this.showLoseScreen, this));
+        },
+
+        showLoseScreen: function(score) {
+            if (score > this.highScore) {
+                this.highScore = score;
+            }
+            this.screen = new LoseScreen(this.canvas, this.context, score, this.highScore, _.bind(this.showTitleScreen, this));
         },
 
         startGame: function() {
