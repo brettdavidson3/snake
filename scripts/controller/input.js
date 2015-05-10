@@ -15,10 +15,6 @@ define([
             this.registeredActions[key] = action;
         },
 
-        registerAny: function(action) {
-            this.anyActions.push(action);
-        },
-
         onKeyDown: function(event) {
             var key = event.which;
             var action = this.registeredActions[key];

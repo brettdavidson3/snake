@@ -6,7 +6,7 @@ define([
     var FONT = '"Lucida Console", Monaco, monospace';
     var TITLE_TEXT = 'SNAKE';
     var HIGH_SCORE_TEXT = 'High Score: ';
-    var PLAY_TEXT = 'Press any key to play...';
+    var PLAY_TEXT = 'Press ENTER to play...';
 
     var TitleView = function(context, titleModel) {
         this.context = context;

@@ -13,7 +13,7 @@ define([
     _.extend(TitleController.prototype, {
         initInputListener: function() {
             this.inputListener = new InputListener();
-            this.inputListener.registerAny(_.bind(function() {
+            this.inputListener.register(13, _.bind(function() { // ENTER key
                 this.inputListener.clear();
                 this.showGameScreenCallback();
             }, this));

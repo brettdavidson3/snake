@@ -8,7 +8,7 @@ define([
     var SCORE_TEXT = "Your score: ";
     var HIGH_SCORE_TEXT = "High score: ";
     var NEW_HIGH_SCORE_TEXT = "NEW HIGH SCORE!";
-    var PRESS_ANY_KEY_TEXT = "Press any key...";
+    var PRESS_ANY_KEY_TEXT = "Press ENTER...";
 
     var LoseView = function(context, loseModel) {
         this.context = context;
