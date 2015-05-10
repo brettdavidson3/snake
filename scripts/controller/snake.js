@@ -33,7 +33,9 @@ define([
         },
 
         update: function(timestamp) {
-            if (timestamp - this.lastAdvanceTimestamp >= this.snakeModel.speedInterval) {
+            if (this.lastAdvanceTimestamp === 0) {
+                this.lastAdvanceTimestamp = timestamp;
+            } else if (timestamp - this.lastAdvanceTimestamp >= this.snakeModel.speedInterval) {
                 this.addNewHead();
                 this.lastAdvanceTimestamp = timestamp;
                 return true;
@@ -53,6 +55,10 @@ define([
 
         clearInputListener: function() {
             this.inputListener.clear();
+        },
+
+        resetLastAdvanceTimestamp: function(currentTimestamp) {
+            this.lastAdvanceTimestamp = 0;
         }
     });
 

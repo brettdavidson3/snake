@@ -1,19 +1,40 @@
 define([
     'underscore',
     'controller/snake',
+    'controller/input',
     'model/block'
-], function(_, SnakeController, Block) {
+], function(_, SnakeController, InputListener, Block) {
     'use strict';
 
     var GameController = function(gameModel, gameOverCallback) {
         this.gameModel = gameModel;
-        this.snakeController = new SnakeController(gameModel.snake);
         this.gameOverCallback = gameOverCallback;
+        this.inputListener = this.initInputListener();
+        this.snakeController = new SnakeController(gameModel.snake);
         this.spawnApple();
     };
 
     _.extend(GameController.prototype, {
+        initInputListener: function() {
+            this.inputListener = new InputListener();
+            this.inputListener.register(32, _.bind(this.pause, this));  // Spacebar
+        },
+
+        pause: function() {
+            if (this.gameModel.paused) {
+                this.snakeController.resetLastAdvanceTimestamp();
+                this.snakeController.initInputListener();
+            } else {
+                // don't let the user cheat by pausing and then changing directions
+                this.snakeController.clearInputListener();
+            }
+            this.gameModel.paused = !this.gameModel.paused;
+        },
+
         update: function(timestamp) {
+            if (this.gameModel.paused) {
+                return;
+            }
             var snakeAdvanced = this.snakeController.update(timestamp);
             if (snakeAdvanced) {
                 this.onSnakeAdvance();

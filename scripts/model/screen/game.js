@@ -6,7 +6,7 @@ define([
     'use strict';
 
     var GameScreen = function(canvas, context, callback) {
-        this.model = new GameModel(canvas.width)
+        this.model = new GameModel(canvas.width, canvas.height);
         this.view = new GameView(context, this.model);
         this.controller = new GameController(this.model, callback);
     };

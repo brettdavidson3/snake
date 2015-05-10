@@ -3,6 +3,10 @@ define([
 ], function(_) {
     'use strict';
 
+    var PAUSED_TEXT = "PAUSED";
+    var PRESS_SPACEBAR_TEXT = "Press spacebar to resume...";
+    var FONT = '"Lucida Console", Monaco, monospace';
+
     var GameView = function(context, gameModel) {
         this.context = context;
         this.gameModel = gameModel;
@@ -10,12 +14,34 @@ define([
 
     _.extend(GameView.prototype, {
         render: function() {
-            this.drawSnake();
-            this.drawApple();
+            if (this.gameModel.paused) {
+                this.drawPausedText();
+            } else {
+                this.context.fillStyle = "#292900";
+                this.drawSnake();
+                this.drawApple();
+            }
+        },
+
+        drawPausedText: function() {
+            this.context.fillStyle = "#292900";
+            this.context.textAlign = "center";
+            var x = this.gameModel.arenaPixelWidth / 2;
+            var y = this.gameModel.arenaPixelHeight / 2;
+
+            this.setFontSize(100);
+            this.context.fillText(PAUSED_TEXT, x, y);
+
+            y = this.gameModel.arenaPixelHeight - 120;
+            this.setFontSize(40);
+            this.context.fillText(PRESS_SPACEBAR_TEXT, x, y);
+        },
+
+        setFontSize: function(size) {
+            this.context.font = size + 'px' + FONT;
         },
 
         drawSnake: function() {
-            this.context.fillStyle = "#292900";
             _.each(this.gameModel.snake.body, _.bind(this.drawSnakeBlock, this));
         },
 
@@ -34,7 +60,6 @@ define([
             var appleCenterX = (apple.x * blockSize) + halfABlock;
             var appleCenterY = (apple.y * blockSize) + halfABlock;
 
-            this.context.strokeStyle = "#292900";
             this.context.beginPath();
             this.context.arc(appleCenterX, appleCenterY, halfABlock, 0, 2 * Math.PI);
             this.context.stroke();
