@@ -14,10 +14,22 @@ define([
 
     _.extend(GameController.prototype, {
         update: function(timestamp) {
-            this.snakeController.update(timestamp);
+            var snakeAdvanced = this.snakeController.update(timestamp);
+            if (snakeAdvanced) {
+                this.onSnakeAdvance();
+            }
+        },
+
+        onSnakeAdvance: function() {
             if (this.isInLoseState()) {
                 this.snakeController.clearInputListener();
                 this.gameOverCallback(this.gameModel.score);
+            } else if (this.isEatingApple()) {
+                this.gameModel.incrementScore();
+                this.gameModel.snake.incrementSpeed();
+                this.spawnApple();
+            } else {
+                this.gameModel.snake.popTail();
             }
         },
 
@@ -54,6 +66,10 @@ define([
             var x = _.random(this.gameModel.arenaBlockWidth - 1);
             var y = _.random(this.gameModel.arenaBlockHeight - 1);
             return new Block(x, y);
+        },
+
+        isEatingApple: function() {
+            return this.gameModel.snake.getHead().intersects(this.gameModel.apple);
         }
     });
 

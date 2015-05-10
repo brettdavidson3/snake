@@ -9,6 +9,7 @@ define([
     var INITIAL_POSITION = new Block(6, 1);
     var INITIAL_DIRECTION = Direction.RIGHT;
     var INITIAL_SPEED_INTERVAL = 100;
+    var SPEED_INCREMENT_PERCENTAGE = 0.95;
 
     var Snake = function() {
         this.body = this.initBody();
@@ -30,6 +31,14 @@ define([
 
         getTail: function() {
             return _.rest(this.body);
+        },
+
+        popTail: function() {
+            return this.body.pop();
+        },
+
+        incrementSpeed: function() {
+            this.speedInterval *= SPEED_INCREMENT_PERCENTAGE;
         }
     });
 

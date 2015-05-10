@@ -34,10 +34,11 @@ define([
 
         update: function(timestamp) {
             if (timestamp - this.lastAdvanceTimestamp >= this.snakeModel.speedInterval) {
-                this.snakeModel.body.pop();
                 this.addNewHead();
                 this.lastAdvanceTimestamp = timestamp;
+                return true;
             }
+            return false;
         },
 
         addNewHead: function() {
