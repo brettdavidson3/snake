@@ -19,6 +19,7 @@ define([
             var key = event.which;
             var action = this.registeredActions[key];
             if (action) {
+                event.preventDefault();
                 action();
             }
         },
