@@ -45,8 +45,9 @@ define([
             var appleCenterX = (apple.x * this.mainModel.blockSize) + halfABlock;
             var appleCenterY = (apple.y * this.mainModel.blockSize) + halfABlock;
 
+            this.context.lineWidth = 4;
             this.context.beginPath();
-            this.context.arc(appleCenterX, appleCenterY, halfABlock, 0, 2 * Math.PI);
+            this.context.arc(appleCenterX, appleCenterY, halfABlock - 4, 0, 2 * Math.PI);
             this.context.stroke();
         }
 
