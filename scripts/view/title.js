@@ -8,16 +8,15 @@ define([
     var HIGH_SCORE_TEXT = 'High Score: ';
     var PLAY_TEXT = 'Press ENTER to play...';
 
-    var TitleView = function(mainModel, titleModel) {
+    var TitleView = function(mainModel) {
         View.call(this, mainModel);
-        this.titleModel = titleModel;
     };
 
     _.extend(TitleView.prototype, View.prototype, {
         render: function() {
             this.drawTitleText(TITLE_TEXT, 200);
 
-            var scoreText = HIGH_SCORE_TEXT + this.titleModel.highScore;
+            var scoreText = HIGH_SCORE_TEXT + this.mainModel.highScore;
             this.drawCenteredText(scoreText, this.centerY + 120, 50);
 
             this.drawBottomText(PLAY_TEXT);

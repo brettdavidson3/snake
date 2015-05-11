@@ -5,9 +5,9 @@ define([
 ], function(_, Controller, Keys) {
     'use strict';
 
-    var LoseController = function(loseModel, showTitleScreenCallback) {
+    var LoseController = function(mainModel, showTitleScreenCallback) {
         Controller.call(this);
-        this.loseModel = loseModel;
+        this.mainModel = mainModel;
         this.showTitleScreenCallback = showTitleScreenCallback;
         this.registerKey(Keys.ENTER, _.bind(this.onEnterPressed, this));
     };
@@ -15,7 +15,7 @@ define([
     _.extend(LoseController.prototype, Controller.prototype, {
         onEnterPressed: function() {
             this.destroy();
-            this.showTitleScreenCallback(this.loseModel.highScore);
+            this.showTitleScreenCallback(this.mainModel.highScore);
         },
 
         update: function(timestamp) {

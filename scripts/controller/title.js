@@ -5,9 +5,8 @@ define([
 ], function(_, Controller, Keys) {
     'use strict';
 
-    var TitleController = function(titleModel, showGameScreenCallback) {
+    var TitleController = function(mainModel, showGameScreenCallback) {
         Controller.call(this);
-        this.titleModel = titleModel;
         this.showGameScreenCallback = showGameScreenCallback;
         this.registerKey(Keys.ENTER, _.bind(this.onEnterPressed, this));
     };
