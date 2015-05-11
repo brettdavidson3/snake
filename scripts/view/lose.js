@@ -1,50 +1,37 @@
 define([
-    'underscore'
-], function(_) {
+    'underscore',
+    'view/view'
+], function(_, View) {
     'use strict';
 
-    var FONT = '"Lucida Console", Monaco, monospace';
     var LOSE_TEXT = "GAME OVER";
     var SCORE_TEXT = "Your score: ";
     var HIGH_SCORE_TEXT = "High score: ";
     var NEW_HIGH_SCORE_TEXT = "NEW HIGH SCORE!";
     var PRESS_ENTER_TEXT = "Press ENTER...";
 
-    var LoseView = function(context, loseModel) {
-        this.context = context;
+    var LoseView = function(mainModel, loseModel) {
+        View.call(this, mainModel);
         this.loseModel = loseModel;
     };
 
-    _.extend(LoseView.prototype, {
+    _.extend(LoseView.prototype, View.prototype, {
         render: function() {
-            this.context.fillStyle = "#292900";
-            this.context.textAlign = "center";
-            var x = this.loseModel.arenaPixelWidth / 2;
-            var y = this.loseModel.arenaPixelHeight / 2;
+            this.drawTitleText(LOSE_TEXT, 100);
 
-            this.setFontSize(100);
-            this.context.fillText(LOSE_TEXT, x, y);
+            var y = this.mainModel.centerY + 120;
+            this.drawCenteredText(SCORE_TEXT + this.loseModel.score, y, 50);
 
             y+= 120;
-            this.setFontSize(50);
-            this.context.fillText(SCORE_TEXT + this.loseModel.score, x, y);
-
-            y+= 120;
-            this.setFontSize(50);
             if (this.loseModel.highScore === this.loseModel.score) {
-                this.context.fillText(NEW_HIGH_SCORE_TEXT, x, y);
+                this.drawCenteredText(NEW_HIGH_SCORE_TEXT, y, 50);
             } else {
-                this.context.fillText(HIGH_SCORE_TEXT + this.loseModel.highScore, x, y);
+                this.drawCenteredText(HIGH_SCORE_TEXT + this.loseModel.highScore, y, 50);
             }
 
-            y = this.loseModel.arenaPixelHeight - 120;
-            this.setFontSize(40);
-            this.context.fillText(PRESS_ENTER_TEXT, x, y);
-        },
-
-        setFontSize: function(size) {
-            this.context.font = size + 'px' + FONT;
+            this.drawBottomText(PRESS_ENTER_TEXT);
         }
+
     });
 
     return LoseView;

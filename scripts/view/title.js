@@ -1,39 +1,26 @@
 define([
-    'underscore'
-], function(_) {
+    'underscore',
+    'view/view'
+], function(_, View) {
     'use strict';
 
-    var FONT = '"Lucida Console", Monaco, monospace';
     var TITLE_TEXT = 'SNAKE';
     var HIGH_SCORE_TEXT = 'High Score: ';
     var PLAY_TEXT = 'Press ENTER to play...';
 
-    var TitleView = function(context, titleModel) {
-        this.context = context;
+    var TitleView = function(mainModel, titleModel) {
+        View.call(this, mainModel);
         this.titleModel = titleModel;
     };
 
-    _.extend(TitleView.prototype, {
+    _.extend(TitleView.prototype, View.prototype, {
         render: function() {
-            this.context.fillStyle = '#292900';
-            this.context.textAlign = 'center';
-            var x = this.titleModel.arenaPixelWidth / 2;
-            var y = this.titleModel.arenaPixelHeight / 2;
+            this.drawTitleText(TITLE_TEXT, 200);
 
-            this.setFontSize(200);
-            this.context.fillText(TITLE_TEXT, x, y);
+            var scoreText = HIGH_SCORE_TEXT + this.titleModel.highScore;
+            this.drawCenteredText(scoreText, this.centerY + 120, 50);
 
-            y += 120;
-            this.setFontSize(50);
-            this.context.fillText(HIGH_SCORE_TEXT + this.titleModel.highScore, x, y);
-
-            y = this.titleModel.arenaPixelHeight - 120;
-            this.setFontSize(40);
-            this.context.fillText(PLAY_TEXT, x, y);
-        },
-
-        setFontSize: function(size) {
-            this.context.font = size + 'px' + FONT;
+            this.drawBottomText(PLAY_TEXT);
         }
     });
 

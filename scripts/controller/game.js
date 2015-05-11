@@ -7,8 +7,11 @@ define([
 ], function(_, Controller, SnakeController, Block, Keys) {
     'use strict';
 
+    var SCORE_INTERVAL = 10;
+
     var GameController = function(gameModel, gameOverCallback) {
         Controller.call(this);
+        this.mainModel = gameModel.mainModel;
         this.gameModel = gameModel;
         this.gameOverCallback = gameOverCallback;
         this.snakeController = this.addChildController(new SnakeController(gameModel.snake));
@@ -42,9 +45,9 @@ define([
         onSnakeAdvance: function() {
             if (this.isInLoseState()) {
                 this.destroy();
-                this.gameOverCallback(this.gameModel.score);
+                this.gameOverCallback(this.mainModel.score);
             } else if (this.isEatingApple()) {
-                this.gameModel.incrementScore();
+                this.mainModel.score += SCORE_INTERVAL;
                 this.gameModel.snake.incrementSpeed();
                 this.spawnApple();
             } else {
@@ -58,8 +61,8 @@ define([
 
         snakeHasHitWall: function() {
             var head = this.gameModel.snake.getHead();
-            return (head.x < 0 || head.x >= this.gameModel.arenaBlockWidth) ||
-                   (head.y < 0 || head.y >= this.gameModel.arenaBlockHeight);
+            return (head.x < 0 || head.x >= this.mainModel.arenaBlockWidth) ||
+                   (head.y < 0 || head.y >= this.mainModel.arenaBlockHeight);
         },
 
         snakeHasHitSelf: function() {
@@ -82,8 +85,8 @@ define([
         },
 
         getRandomBlock: function() {
-            var x = _.random(this.gameModel.arenaBlockWidth - 1);
-            var y = _.random(this.gameModel.arenaBlockHeight - 1);
+            var x = _.random(this.mainModel.arenaBlockWidth - 1);
+            var y = _.random(this.mainModel.arenaBlockHeight - 1);
             return new Block(x, y);
         },
 

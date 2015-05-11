@@ -1,10 +1,8 @@
 define(function(require) {
     'use strict';
 
-    var TitleModel = function(highScore, arenaPixelWidth, arenaPixelHeight) {
+    var TitleModel = function(highScore) {
         this.highScore = highScore;
-        this.arenaPixelWidth = arenaPixelWidth;
-        this.arenaPixelHeight = arenaPixelHeight;
     };
 
     return TitleModel;

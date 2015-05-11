@@ -5,9 +5,9 @@ define([
 ], function(LoseModel, LoseView, LoseController) {
     'use strict';
 
-    var LoseScreen = function(canvas, context, score, highScore, showTitleScreenCallback) {
-        this.model = new LoseModel(score, highScore, canvas.width, canvas.height);
-        this.view = new LoseView(context, this.model);
+    var LoseScreen = function(mainModel, showTitleScreenCallback) {
+        this.model = new LoseModel(mainModel);
+        this.view = new LoseView(mainModel, this.model);
         this.controller = new LoseController(this.model, showTitleScreenCallback);
     };
 

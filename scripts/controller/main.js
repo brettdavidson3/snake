@@ -1,26 +1,24 @@
 define([
 'underscore',
+'model/main',
 'model/screen/title',
 'model/screen/game',
 'model/screen/lose'
-], function(_, TitleScreen, GameScreen, LoseScreen) {
+], function(_, MainModel, TitleScreen, GameScreen, LoseScreen) {
     'use strict';
 
     function MainController(canvas) {
         this.setUpRequestAnimationFrame();
         this.resizeCanvas(canvas);
 
-        this.canvas = canvas;
-        this.context = canvas.getContext("2d");
-        this.highScore = 0;
-
+        this.model = new MainModel(canvas);
         this.registerCanvasClickEvent();
         this.showTitleScreen();
     }
 
     _.extend(MainController.prototype, {
         registerCanvasClickEvent: function() {
-            this.canvas.onclick = _.bind(this.onCanvasClick, this);
+            this.model.canvas.onclick = _.bind(this.onCanvasClick, this);
         },
 
         onCanvasClick: function() {
@@ -29,18 +27,19 @@ define([
         },
 
         showTitleScreen: function() {
-            this.screen = new TitleScreen(this.canvas, this.context, this.highScore, _.bind(this.showGameScreen, this));
+            this.screen = new TitleScreen(this.model, _.bind(this.showGameScreen, this));
         },
 
         showGameScreen: function() {
-            this.screen = new GameScreen(this.canvas, this.context, _.bind(this.showLoseScreen, this));
+            this.model.score = 0;
+            this.screen = new GameScreen(this.model, _.bind(this.showLoseScreen, this));
         },
 
         showLoseScreen: function(score) {
-            if (score > this.highScore) {
-                this.highScore = score;
+            if (score > this.model.highScore) {
+                this.model.highScore = score;
             }
-            this.screen = new LoseScreen(this.canvas, this.context, score, this.highScore, _.bind(this.showTitleScreen, this));
+            this.screen = new LoseScreen(this.model, _.bind(this.showTitleScreen, this));
         },
 
         startGame: function() {
@@ -65,10 +64,7 @@ define([
         },
 
         scheduleNextFrame: function() {
-            var me = this;
-            window.requestAnimationFrame(function(timestamp) {
-                me.gameLoop(timestamp);
-            });
+            window.requestAnimationFrame(_.bind(this.gameLoop, this));
         },
 
         gameLoop: function(timestamp) {
@@ -79,8 +75,8 @@ define([
         },
 
         clearCanvas: function() {
-            this.context.fillStyle = "#CCCC00";
-            this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+            this.model.context.fillStyle = "#CCCC00";
+            this.model.context.fillRect(0, 0, this.model.arenaPixelWidth, this.model.arenaPixelHeight);
         },
 
     });
