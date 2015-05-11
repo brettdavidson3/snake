@@ -7,7 +7,7 @@ define([
         this.registeredActions = {};
         this.childControllers = [];
         this.keyDownListener = _.bind(this.onKeyDown, this);
-        document.addEventListener('keydown', this.keyDownListener);
+        this.resumeKeyListeners();
     };
 
     _.extend(Controller.prototype, {

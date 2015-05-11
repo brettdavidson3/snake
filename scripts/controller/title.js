@@ -2,7 +2,7 @@ define([
     'underscore',
     'controller/controller',
     'model/constants/keys'
-], function(_, Controller) {
+], function(_, Controller, Keys) {
     'use strict';
 
     var TitleController = function(titleModel, showGameScreenCallback) {

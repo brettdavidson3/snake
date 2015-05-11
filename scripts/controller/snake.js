@@ -4,7 +4,7 @@ define([
     'model/block',
     'model/constants/direction',
     'model/constants/keys'
-], function(_, Controller, Block, Direction) {
+], function(_, Controller, Block, Direction, Keys) {
     'use strict';
 
     var SnakeController = function(snakeModel) {

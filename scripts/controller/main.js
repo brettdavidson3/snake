@@ -14,10 +14,20 @@ define([
         this.context = canvas.getContext("2d");
         this.highScore = 0;
 
+        this.registerCanvasClickEvent();
         this.showTitleScreen();
     }
 
     _.extend(MainController.prototype, {
+        registerCanvasClickEvent: function() {
+            this.canvas.onclick = _.bind(this.onCanvasClick, this);
+        },
+
+        onCanvasClick: function() {
+            this.screen.controller.destroy();
+            this.showTitleScreen();
+        },
+
         showTitleScreen: function() {
             this.screen = new TitleScreen(this.canvas, this.context, this.highScore, _.bind(this.showGameScreen, this));
         },
