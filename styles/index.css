@@ -1,5 +1,6 @@
 body {
 	text-align: center;
+	background: #CCCCCC;
 }
 #canvas-wrapper {
 	border-radius: 10px;
@@ -14,4 +15,10 @@ body {
 	width: 640px;
 	height: 480px;
 	border: solid 2px #292900;
+}
+#instructions {
+    margin-left: auto;
+    margin-right: auto;
+    width: 640px;
+    text-align: left;
 }
