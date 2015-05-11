@@ -1,14 +1,15 @@
 define([
     'underscore',
-    'controller/controller'
-], function(_, Controller) {
+    'controller/controller',
+    'model/constants/keys'
+], function(_, Controller, Keys) {
     'use strict';
 
     var LoseController = function(loseModel, showTitleScreenCallback) {
         Controller.call(this);
         this.loseModel = loseModel;
         this.showTitleScreenCallback = showTitleScreenCallback;
-        this.registerKey(13, _.bind(this.onEnterPressed, this)); // ENTER key
+        this.registerKey(Keys.ENTER, _.bind(this.onEnterPressed, this));
     };
 
     _.extend(LoseController.prototype, Controller.prototype, {

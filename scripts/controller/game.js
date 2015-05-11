@@ -2,8 +2,9 @@ define([
     'underscore',
     'controller/controller',
     'controller/snake',
-    'model/block'
-], function(_, Controller, SnakeController, Block) {
+    'model/block',
+    'model/constants/keys'
+], function(_, Controller, SnakeController, Block, Keys) {
     'use strict';
 
     var GameController = function(gameModel, gameOverCallback) {
@@ -12,7 +13,7 @@ define([
         this.gameOverCallback = gameOverCallback;
         this.snakeController = this.addChildController(new SnakeController(gameModel.snake));
 
-        this.registerKey(32, _.bind(this.pause, this));  // Spacebar
+        this.registerKey(Keys.SPACEBAR, _.bind(this.pause, this));
         this.spawnApple();
     };
 

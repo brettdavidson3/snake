@@ -1,7 +1,7 @@
 define([
     'underscore',
     'model/block',
-    'model/direction'
+    'model/constants/direction'
 ], function(_, Block, Direction) {
     'use strict';
 

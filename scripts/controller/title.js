@@ -1,6 +1,7 @@
 define([
     'underscore',
-    'controller/controller'
+    'controller/controller',
+    'model/constants/keys'
 ], function(_, Controller) {
     'use strict';
 
@@ -8,7 +9,7 @@ define([
         Controller.call(this);
         this.titleModel = titleModel;
         this.showGameScreenCallback = showGameScreenCallback;
-        this.registerKey(13, _.bind(this.onEnterPressed, this)); // ENTER key
+        this.registerKey(Keys.ENTER, _.bind(this.onEnterPressed, this));
     };
 
     _.extend(TitleController.prototype, Controller.prototype, {

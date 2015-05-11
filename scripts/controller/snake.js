@@ -2,7 +2,8 @@ define([
     'underscore',
     'controller/controller',
     'model/block',
-    'model/direction',
+    'model/constants/direction',
+    'model/constants/keys'
 ], function(_, Controller, Block, Direction) {
     'use strict';
 
@@ -15,10 +16,10 @@ define([
 
     _.extend(SnakeController.prototype, Controller.prototype, {
         initKeyListeners: function() {
-            this.registerKey(37, _.bind(this.attemptDirection, this, Direction.LEFT));
-            this.registerKey(38, _.bind(this.attemptDirection, this, Direction.UP));
-            this.registerKey(39, _.bind(this.attemptDirection, this, Direction.RIGHT));
-            this.registerKey(40, _.bind(this.attemptDirection, this, Direction.DOWN));
+            this.registerKey(Keys.LEFT_ARROW, _.bind(this.attemptDirection, this, Direction.LEFT));
+            this.registerKey(Keys.UP_ARROW, _.bind(this.attemptDirection, this, Direction.UP));
+            this.registerKey(Keys.RIGHT_ARROW, _.bind(this.attemptDirection, this, Direction.RIGHT));
+            this.registerKey(Keys.DOWN_ARROW, _.bind(this.attemptDirection, this, Direction.DOWN));
         },
 
         attemptDirection: function(direction) {
