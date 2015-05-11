@@ -1,32 +1,29 @@
 define([
     'underscore',
+    'controller/controller',
     'controller/snake',
-    'controller/input',
     'model/block'
-], function(_, SnakeController, InputListener, Block) {
+], function(_, Controller, SnakeController, Block) {
     'use strict';
 
     var GameController = function(gameModel, gameOverCallback) {
+        Controller.call(this);
         this.gameModel = gameModel;
         this.gameOverCallback = gameOverCallback;
-        this.inputListener = this.initInputListener();
-        this.snakeController = new SnakeController(gameModel.snake);
+        this.snakeController = this.addChildController(new SnakeController(gameModel.snake));
+
+        this.registerKey(32, _.bind(this.pause, this));  // Spacebar
         this.spawnApple();
     };
 
-    _.extend(GameController.prototype, {
-        initInputListener: function() {
-            this.inputListener = new InputListener();
-            this.inputListener.register(32, _.bind(this.pause, this));  // Spacebar
-        },
-
+    _.extend(GameController.prototype, Controller.prototype, {
         pause: function() {
             if (this.gameModel.paused) {
                 this.snakeController.resetLastAdvanceTimestamp();
-                this.snakeController.initInputListener();
+                this.snakeController.resumeKeyListeners();
             } else {
                 // don't let the user cheat by pausing and then changing directions
-                this.snakeController.clearInputListener();
+                this.snakeController.pauseKeyListeners();
             }
             this.gameModel.paused = !this.gameModel.paused;
         },
@@ -43,7 +40,7 @@ define([
 
         onSnakeAdvance: function() {
             if (this.isInLoseState()) {
-                this.snakeController.clearInputListener();
+                this.destroy();
                 this.gameOverCallback(this.gameModel.score);
             } else if (this.isEatingApple()) {
                 this.gameModel.incrementScore();

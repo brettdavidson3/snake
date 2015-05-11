@@ -1,22 +1,20 @@
 define([
     'underscore',
-    'controller/input'
-], function(_, InputListener) {
+    'controller/controller'
+], function(_, Controller) {
     'use strict';
 
     var TitleController = function(titleModel, showGameScreenCallback) {
+        Controller.call(this);
         this.titleModel = titleModel;
         this.showGameScreenCallback = showGameScreenCallback;
-        this.initInputListener();
+        this.registerKey(13, _.bind(this.onEnterPressed, this)); // ENTER key
     };
 
-    _.extend(TitleController.prototype, {
-        initInputListener: function() {
-            this.inputListener = new InputListener();
-            this.inputListener.register(13, _.bind(function() { // ENTER key
-                this.inputListener.clear();
-                this.showGameScreenCallback();
-            }, this));
+    _.extend(TitleController.prototype, Controller.prototype, {
+        onEnterPressed: function() {
+           this.destroy();
+           this.showGameScreenCallback();
         },
 
         update: function(timestamp) {

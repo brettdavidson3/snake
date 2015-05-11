@@ -1,24 +1,24 @@
 define([
     'underscore',
+    'controller/controller',
     'model/block',
     'model/direction',
-    'controller/input'
-], function(_, Block, Direction, InputListener) {
+], function(_, Controller, Block, Direction) {
     'use strict';
 
     var SnakeController = function(snakeModel) {
+        Controller.call(this);
         this.snakeModel = snakeModel;
         this.lastAdvanceTimestamp = 0;
-        this.initInputListener();
+        this.initKeyListeners();
     };
 
-    _.extend(SnakeController.prototype, {
-        initInputListener: function() {
-            this.inputListener = new InputListener();
-            this.inputListener.register(37, _.bind(this.attemptDirection, this, Direction.LEFT));
-            this.inputListener.register(38, _.bind(this.attemptDirection, this, Direction.UP));
-            this.inputListener.register(39, _.bind(this.attemptDirection, this, Direction.RIGHT));
-            this.inputListener.register(40, _.bind(this.attemptDirection, this, Direction.DOWN));
+    _.extend(SnakeController.prototype, Controller.prototype, {
+        initKeyListeners: function() {
+            this.registerKey(37, _.bind(this.attemptDirection, this, Direction.LEFT));
+            this.registerKey(38, _.bind(this.attemptDirection, this, Direction.UP));
+            this.registerKey(39, _.bind(this.attemptDirection, this, Direction.RIGHT));
+            this.registerKey(40, _.bind(this.attemptDirection, this, Direction.DOWN));
         },
 
         attemptDirection: function(direction) {
@@ -51,10 +51,6 @@ define([
             this.snakeModel.body.unshift(new Block(newX, newY));
 
             this.snakeModel.direction = this.snakeModel.nextDirection;
-        },
-
-        clearInputListener: function() {
-            this.inputListener.clear();
         },
 
         resetLastAdvanceTimestamp: function(currentTimestamp) {
