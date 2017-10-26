@@ -3,7 +3,7 @@ A throwback snake game using Canvas 2D
 
 ## Play Now
 
-The game is available at: [brettdavidson.net/snake/index.html](http://brettdavidson.net/snake/index.html)
+The game is available at: [https://brettdavidson3.github.io/snake/](https://brettdavidson3.github.io/snake/)
 
 ## Development
 
